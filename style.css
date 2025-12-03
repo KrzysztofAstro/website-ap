@@ -1,0 +1,293 @@
+/* === KOLORY GŁÓWNE === */
+:root {
+    --tlo: #0c101b;        /* tło strony */
+    --tekst: #dfe1e4;      /* główny tekst */
+    --tekst2: #9d9d9d;     /* etykiety i nagłówki */
+    --akcent: #f4cf02;     /* ptaszek checkboxa */
+    --panel: #021d38;
+    --panel-ciemny: #001526;
+    --border: #264766;
+    --btn-border: #213862; /* obramowanie przycisku */
+}
+
+/* === RESET / OGÓLNY STYL === */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--tlo);
+    color: var(--tekst);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* === STRUKTURA STRONY === */
+.app {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.top-bar {
+    background-color: var(--panel);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+}
+
+.top-bar h1 {
+    margin: 0;
+    font-size: 22px;
+    color: var(--tekst);
+    letter-spacing: 0.03em;
+}
+
+/* === LAYOUT PANELI === */
+.main {
+    display: grid;
+    grid-template-columns: 1.1fr 2.2fr 1.2fr;
+    gap: 15px;
+}
+
+.panel {
+    background: linear-gradient(
+        135deg,
+        #0e2033 0%,
+        #0b1929 40%,
+        #09121f 100%
+    );
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden; /* ważne, żeby glow nie wychodził poza panel */
+}
+
+
+.panel::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 2px; /* ultra cienki pasek — micro-glow */
+
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.18) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+
+    pointer-events: none;
+}
+
+.panel h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--tekst2);
+}
+
+/* === FORMULARZE === */
+.form-group {
+    margin-bottom: 12px;
+}
+
+label {
+    color: var(--tekst2);
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background-color: var(--panel-ciemny);
+    color: var(--tekst);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--btn-border);
+    box-shadow: 0 0 8px rgba(33,56,98,0.4);
+}
+
+/* --- CUSTOM CHECKBOX Z ANIMACJĄ I GLOW --- */
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 18px;
+    height: 18px;
+
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--panel-ciemny);
+
+    cursor: pointer;
+    position: relative;
+    margin-right: 6px;
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+/* efekt hover na polu wyboru */
+input[type="checkbox"]:hover {
+    border-color: var(--akcent);
+    box-shadow: 0 0 6px rgba(244, 207, 2, 0.35);
+}
+
+/* Ptaszek */
+input[type="checkbox"]::after {
+    content: "";
+    position: absolute;
+    display: none;
+
+    left: 4px;
+    top: 0px;
+
+    width: 5px;
+    height: 10px;
+
+    border: solid var(--akcent);
+    border-width: 0 2px 2px 0;
+
+    transform: rotate(45deg);
+}
+
+/* Gdy zaznaczony, pokaż ptaszka + glow + animacja POP */
+input[type="checkbox"]:checked {
+    border-color: var(--akcent);
+    background-color: #2b2304;
+    box-shadow: 0 0 10px rgba(244, 207, 2, 0.55);
+}
+
+input[type="checkbox"]:checked::after {
+    display: block;
+    animation: pop 0.18s ease-out;
+}
+
+/* animacja pojawiania się ptaszka */
+@keyframes pop {
+    0% {
+        transform: scale(0.4) rotate(45deg);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) rotate(45deg);
+        opacity: 1;
+    }
+}
+/* === PRZYCISK "PRZETWÓRZ DANE" === */
+button {
+    background: #032033;
+    color: #ffffff;
+    border: 2px solid var(--btn-border);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.15s ease,
+        background-color 0.15s ease;
+}
+
+button:hover {
+    background-color: #092a45;
+    box-shadow: 0 0 10px rgba(33,56,98,0.6);
+}
+
+button:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 5px rgba(33,56,98,0.4);
+}
+
+/* === TABELA === */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--tekst);
+    font-size: 14px;
+}
+
+table th {
+    background: linear-gradient(90deg, #042643, #06335a);
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: var(--tekst2);
+}
+
+table td {
+    padding: 7px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+table tr:nth-child(even) {
+    background-color: #02162b;
+}
+
+table tr:hover {
+    background-color: #062440;
+}
+
+.cell-checkbox label {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* === PANEL WYNIKOWY === */
+.result-box {
+    background-color: var(--panel-ciemny);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 13px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.7);
+}
+
+.result-box strong {
+    color: var(--tekst2);
+}
+
+/* === RESPONSYWNOŚĆ === */
+@media (max-width: 900px) {
+    .main {
+        grid-template-columns: 1fr;
+    }
+}
+/* === PANEL Z WYKRESEM === */
+.panel-chart {
+    margin-top: 20px;
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 260px; /* możesz podbić np. do 320px jak chcesz wyższy wykres */
+}
+
+#mainChart {
+    width: 100%;
+    height: 100%;
+}
+
+
+

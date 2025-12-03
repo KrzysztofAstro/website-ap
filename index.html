@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Panel przetwarzania danych</title>
+    <link rel="stylesheet" href="./style.css">
+    <!-- Chart.js z CDN -->
+    <script src="./chart.js"></script>
+
+</head>
+<body>
+<div class="app">
+    <header class="top-bar">
+        <h1>Panel przetwarzania danych</h1>
+    </header>
+
+    <main class="main">
+        <!-- LEWY PANEL – KONTROLKI -->
+        <section class="panel panel-controls">
+            <h2>Ustawienia przetwarzania</h2>
+
+            <div class="form-group">
+                <label for="tryb">Tryb działania</label>
+                <select id="tryb" name="tryb">
+                    <option>Podgląd (bez zapisu)</option>
+                    <option>Przetwarzanie i zapis do bazy</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mnoznik">Mnożnik / współczynnik</label>
+                <input type="number" id="mnoznik" name="mnoznik" step="0.01" value="1.00">
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="filtr_aktywne" checked>
+                    Pokaż tylko aktywne rekordy
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="logowanie_operacji">
+                    Zapisuj log z operacji
+                </label>
+            </div>
+
+            <button type="button">Przetwórz dane</button>
+        </section>
+
+        <!-- ŚRODKOWY PANEL – TABELA -->
+        <section class="panel panel-table">
+            <h2>Dane z bazy</h2>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Wybierz</th>
+                    <th>ID</th>
+                    <th>Nazwa</th>
+                    <th>Wartość</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="cell-checkbox">
+                        <label>
+                            <input type="checkbox" name="rekord" value="1" checked>
+                        </label>
+                    </td>
+                    <td>1</td>
+                    <td>Przykładowa pozycja A</td>
+                    <td>123.45</td>
+                    <td>Aktywny</td>
+                </tr>
+                <tr>
+                    <td class="cell-checkbox">
+                        <label>
+                            <input type="checkbox" name="rekord" value="2">
+                        </label>
+                    </td>
+                    <td>2</td>
+                    <td>Przykładowa pozycja B</td>
+                    <td>98.00</td>
+                    <td>Nieaktywny</td>
+                </tr>
+                <tr>
+                    <td class="cell-checkbox">
+                        <label>
+                            <input type="checkbox" name="rekord" value="3" checked>
+                        </label>
+                    </td>
+                    <td>3</td>
+                    <td>Przykładowa pozycja C</td>
+                    <td>55.10</td>
+                    <td>Aktywny</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- PRAWY PANEL – PODSUMOWANIE -->
+        <section class="panel panel-result">
+            <h2>Wynik / podsumowanie</h2>
+
+            <div class="result-box">
+                <p><strong>Zaznaczone rekordy:</strong> 2</p>
+                <p><strong>Suma wartości:</strong> 276.55</p>
+                <p><strong>Po mnożniku:</strong> 304.21</p>
+                <hr>
+                <p>Status operacji: oczekiwanie…</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- NOWY PANEL – WYKRES NA CAŁĄ SZEROKOŚĆ -->
+    <section class="panel panel-chart">
+        <h2>Wykres przetwarzanych danych</h2>
+        <div class="chart-wrapper">
+            <canvas id="mainChart"></canvas>
+        </div>
+    </section>
+</div>
+
+<!-- Skrypt inicjalizujący wykres -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const akcent = rootStyles.getPropertyValue('--akcent').trim();   // żółty
+    const tekst2 = rootStyles.getPropertyValue('--tekst2').trim();   // szary tekst
+
+    // drugi kolor – chłodny niebieski w tej samej tonacji
+    const kolor2 = 'rgba(80, 180, 255, 1)';
+    const kolor2Bg = 'rgba(80, 180, 255, 0.15)';
+
+    const ctx = document.getElementById('mainChart').getContext('2d');
+
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Rekord 1', 'Rekord 2', 'Rekord 3', 'Rekord 4', 'Rekord 5', 'Rekord 6'],
+            datasets: [
+                {
+                    label: 'Wartość po przetworzeniu',
+                    data: [120, 150, 90, 200, 170, 140],  // seria 1
+                    borderWidth: 2,
+                    tension: 0.25,
+                    pointRadius: 4,
+                    pointHoverRadius: 5,
+                    fill: true,
+                    borderColor: akcent,
+                    backgroundColor: 'rgba(244, 207, 2, 0.15)'
+                },
+                {
+                    label: 'Wartość pierwotna',
+                    data: [100, 130, 110, 180, 160, 150], // seria 2 (przykładowe dane)
+                    borderWidth: 2,
+                    tension: 0.25,
+                    pointRadius: 4,
+                    pointHoverRadius: 5,
+                    fill: false,            // tylko linia, bez wypełnienia
+                    borderColor: kolor2,
+                    backgroundColor: kolor2Bg
+                },
+
+                {
+                    label: 'Wartość dodana',
+                    data: [90, 120, 15, 150, 150, 170], // seria 2 (przykładowe dane)
+                    borderWidth: 2,
+                    tension: 0.25,
+                    pointRadius: 4,
+                    pointHoverRadius: 5,
+                    fill: false,            // tylko linia, bez wypełnienia
+                    borderColor: "#07ff44",
+                    backgroundColor: kolor2Bg
+                },
+{
+                    label: 'Wartość czerwona',
+                    data: [140, 180, 100, 140, 100, 150], // seria 2 (przykładowe dane)
+                    borderWidth: 2,
+                    tension: 0.25,
+                    pointRadius: 4,
+                    pointHoverRadius: 5,
+                    fill: false,            // tylko linia, bez wypełnienia
+                    borderColor: "#d93a00",
+                    backgroundColor: kolor2Bg
+                }
+
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: tekst2
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: tekst2
+                    },
+                    grid: {
+                        color: 'rgba(255,255,255,0.04)'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: tekst2
+                    },
+                    grid: {
+                        color: 'rgba(255,255,255,0.06)'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
+</body>
+</html>
+
