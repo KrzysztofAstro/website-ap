@@ -317,6 +317,29 @@ table tr:hover {
     color: var(--tekst);
 }
 
+.db-select-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;   /* nie łamie linii */
+}
+
+.db-label {
+    color: var(--tekst2);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.db-select-group select {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background-color: var(--panel-ciemny);
+    color: var(--tekst);
+    min-width: 150px;  /* żeby wyglądało równo */
+}
+
+
 .db-connect {
     display: inline-flex;
     align-items: center;
@@ -772,7 +795,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .db-icon:hover {
-    transform: scale(1.05);
+    transform: scale(1.0);
     filter: drop-shadow(0 0 8px rgba(80, 140, 220, 0.75));
 
 }
