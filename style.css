@@ -47,7 +47,7 @@ body {
 /* === LAYOUT PANELI === */
 .main {
     display: grid;
-    grid-template-columns: 1.0fr 1.6fr 0.8fr;
+    grid-template-columns: 1.2fr 1.4fr 0.8fr;
     gap: 15px;
     margin-bottom: 20px;   /* odstęp między górnym rzędem paneli a kolejnymi */
 }
@@ -350,7 +350,7 @@ table tr:hover {
 
 .time-col button,
 .time-col-button button {
-    width: 100%;
+    width: 140px;
 }
 
 /* panel postępu */
@@ -484,9 +484,6 @@ table tr:hover {
     min-height: 420px;  /* możesz podbić np. do 450px */
 }
 /* Przyciski Początek / Koniec – stała szerokość */
-.time-col-button button {
-    width: 130px;     /* TAKA SAMA szerokość jak lewa kolumna */
-}
 
 /* ===== CUSTOM SCROLLBAR – CIEMNY + AKCENT ===== */
 
@@ -509,19 +506,22 @@ table tr:hover {
 /* ===== ZŁOTY SCROLLBAR — CHROME / EDGE ===== */
 
 .transducers-scroll::-webkit-scrollbar,
-.progress-log-window::-webkit-scrollbar {
+.progress-log-window::-webkit-scrollbar,
+.time-values::-webkit-scrollbar {
     width: 14px;
 }
 
 .transducers-scroll::-webkit-scrollbar-track,
-.progress-log-window::-webkit-scrollbar-track {
+.progress-log-window::-webkit-scrollbar-track,
+.time-values::-webkit-scrollbar-track {
     background: #021526;
     border-radius: 10px;
     border: 1px solid #213862;
 }
 
 .transducers-scroll::-webkit-scrollbar-thumb,
-.progress-log-window::-webkit-scrollbar-thumb {
+.progress-log-window::-webkit-scrollbar-thumb,
+.time-values::-webkit-scrollbar-thumb {
     background: linear-gradient(
         180deg,
         #f4cf02 0%,
@@ -534,7 +534,8 @@ table tr:hover {
 }
 
 .transducers-scroll::-webkit-scrollbar-thumb:hover,
-.progress-log-window::-webkit-scrollbar-thumb:hover {
+.progress-log-window::-webkit-scrollbar-thumb:hover,
+.time-values::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(
         180deg,
         #ffe785 0%,
@@ -546,7 +547,8 @@ table tr:hover {
 
 /* ===== FIREFOX ===== */
 
-.transducers-scroll {
+.transducers-scroll,
+.time-values {
     scrollbar-width: auto;
     scrollbar-color: #f4cf02 #021526;
 }
@@ -555,6 +557,7 @@ table tr:hover {
     scrollbar-width: auto;
     scrollbar-color: #f4cf02 #021526;
 }
+
 /* ikona w input[type=date/time] – dopasowana do dark UI */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
@@ -670,4 +673,184 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     font-weight: 700;
 }
 
+/* === CUSTOM TIME PICKER === */
+
+.time-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.time-wrapper input[readonly] {
+    cursor: pointer;
+}
+
+/* okno czasu */
+.custom-time {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 260px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #020915;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.85);
+    z-index: 50;
+}
+
+.custom-time.hidden {
+    display: none;
+}
+
+.time-columns {
+    display: flex;
+    gap: 10px;
+}
+
+.time-col-block {
+    flex: 1;
+}
+
+.time-col-label {
+    font-size: 11px;
+    color: var(--tekst2);
+    margin-bottom: 4px;
+}
+
+/* listy godzin/minut */
+.time-values {
+    max-height: 160px;
+    overflow-y: auto;
+    padding: 4px;
+    background-color: var(--panel-ciemny);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+/* pojedyncza komórka czasu */
+.time-cell {
+    text-align: center;
+    padding: 4px 0;
+    margin-bottom: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--tekst);
+    font-size: 12px;
+    transition: background-color 0.1s ease, box-shadow 0.1s ease, color 0.1s ease;
+}
+
+.time-cell:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+
+.time-cell.selected {
+    background: linear-gradient(135deg, #f4cf02, #cfa501);
+    color: #000;
+    box-shadow: 0 0 8px rgba(244,207,2,0.6);
+    font-weight: 600;
+}
+
+/* ===== SWITCH SVG ZAMIAST CHECKBOXA ===== */
+
+.db-connect {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    /* ważne: nie pozwalamy, żeby ten blok się ściskał i ciągnął inne */
+    flex-shrink: 0;
+    min-width: 180px;   /* stała minimalna szerokość na ikonę + tekst */
+}
+
+/* tylko ikona jest klikalna */
+.db-icon {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    display: block;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.db-icon:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 8px rgba(80, 140, 220, 0.75));
+
+}
+
+/* tekst jako stała „kolumna” – żeby nie zmieniał szerokości przy zmianie napisu */
+#dbLabel {
+    color: var(--tekst2);
+    font-size: 14px;
+    display: block;
+    width: 110px;      /* stała szerokość pola na tekst */
+    white-space: nowrap;
+}
+
+/* === PODSUMOWANIE WYBRANEGO ZAKRESU CZASU === */
+
+.time-summary {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.time-summary-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.time-summary-box {
+    min-width: 230px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background-color: var(--panel-ciemny);
+    border: 1px solid var(--border);
+    color: var(--tekst);
+    font-size: 14px;
+}
+
+.time-summary-label {
+    color: var(--tekst2);
+    font-size: 15px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.time-summary-label.visible {
+    opacity: 1;
+}
+
+.time-summary-actions {
+    margin-top: 8px;
+    display: flex;
+    justify-content: flex-end;   /* przycisk wyrównany do prawej */
+}
+
+
+
+/* === Ujednolicenie stylu przycisku "Wczytaj dane" === */
+#loadDataBtn {
+    background: #032033;
+    color: #ffffff;
+    border: 1px solid var(--btn-border);
+    height: 34px;
+    padding: 0 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    width: 140px; /* Żeby pasował do przycisków obok */
+}
+
+#loadDataBtn:hover {
+    background-color: #092a45;
+    box-shadow: 0 0 6px rgba(33,56,98,0.4);
+}
+
+#loadDataBtn:active {
+    box-shadow: 0 0 3px rgba(33,56,98,0.2);
+}
 
