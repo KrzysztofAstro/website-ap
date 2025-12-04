@@ -535,7 +535,11 @@ const btnEnd   = document.getElementById("btnEnd");
 if (btnStart) {
     btnStart.addEventListener("click", () => {
         if (dateInput.value && startTime.value) {
-            startBox.textContent = `${dateInput.value} ${startTime.value}`;
+           startBox.innerHTML = `
+    		<span class="sum-date">${dateInput.value}</span>
+    		<span class="sum-time">${startTime.value}</span>
+				`;
+
             if (startLabel) {
                 startLabel.textContent = "Wybrano początek pomiaru";
                 startLabel.classList.add("visible");
@@ -549,7 +553,11 @@ if (btnStart) {
 if (btnEnd) {
     btnEnd.addEventListener("click", () => {
         if (dateInput.value && endTime.value) {
-            endBox.textContent = `${dateInput.value} ${endTime.value}`;
+            endBox.innerHTML = `
+    	<span class="sum-date">${dateInput.value}</span>
+    	<span class="sum-time">${endTime.value}</span>
+				`;
+
             if (endLabel) {
                 endLabel.textContent = "Wybrano koniec pomiaru";
                 endLabel.classList.add("visible");

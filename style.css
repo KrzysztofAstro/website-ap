@@ -853,4 +853,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 #loadDataBtn:active {
     box-shadow: 0 0 3px rgba(33,56,98,0.2);
 }
+.sum-date {
+    color: #f4cf02;
+    font-weight: 600;
+}
+
+.sum-time {
+    color: #66ff00;
+    font-weight: 600;
+    margin-left: 6px;
+}
+
 
