@@ -77,7 +77,8 @@
                     <button type="button">Wczytaj listę</button>
                     <button type="button">Zaznacz wszystkie</button>
                     <button type="button">Odznacz wszystkie</button>
-                    <button type="button">Zapisz</button>
+		    <button type="button" id="btnSaveTransducers">Zapisz</button>
+
                 </div>
             </div>
         </section>
@@ -179,6 +180,16 @@
             <button type="button" id="loadDataBtn">Wczytaj dane</button>
         </div>
     </div>
+<div class="step-indicators">
+    <div class="step-dot" data-step="1" title="Połączenie z bazą"></div>
+    <div class="step-dot" data-step="2" title="Wybór bazy"></div>
+    <div class="step-dot" data-step="3" title="Zapis przetworników"></div>
+    <div class="step-dot" data-step="4" title="Ustawiono początek"></div>
+    <div class="step-dot" data-step="5" title="Ustawiono koniec"></div>
+    <div class="step-dot" data-step="6" title="Wczytano dane"></div>
+</div>
+
+
 </div>
 
 	
@@ -512,9 +523,16 @@ document.addEventListener("DOMContentLoaded", () => {
             icon.src = "rect10.svg";
             label.textContent = "Połącz z bazą";
         }
+
+        // === KROK 1: zapal / zgaś pierwszą kropkę ===
+        const stepDot1 = document.querySelector('.step-dot[data-step="1"]');
+        if (stepDot1) {
+            stepDot1.classList.toggle('step-dot--active', connected);
+        }
     });
 });
 </script>
+
 
 <!-- SKRYPT OBSŁUGUJĄCY POCZĄTEK / KONIEC POMIARU -->
 <script>
@@ -570,6 +588,61 @@ if (btnEnd) {
 }
 </script>
 
+<script>
+(function() {
+    // helper do włączania / wyłączania pojedynczego kroku
+    function setStepDone(stepNumber, done) {
+        const el = document.querySelector('.step-dot[data-step="' + stepNumber + '"]');
+        if (!el) return;
+        el.classList.toggle('step-dot--active', !!done);
+    }
+
+    // ELEMENTY, KTÓRE NAS INTERESUJĄ
+    const dbIcon            = document.getElementById('dbIcon');              // krok 1
+    const dbLabel           = document.getElementById('dbLabel');
+    const dbSelect          = document.getElementById('baza');                // krok 2
+    const btnSaveTrans      = document.getElementById('btnSaveTransducers');  // krok 3
+    const btnStart          = document.getElementById('btnStart');            // krok 4
+    const btnEnd            = document.getElementById('btnEnd');              // krok 5
+    const loadDataBtn       = document.getElementById('loadDataBtn');         // krok 6
+
+    // 1) Połączenie z bazą – zapalamy gdy jest "Połączono"
+       // 2) Wybór bazy – wystarczy zmiana opcji
+    if (dbSelect) {
+        dbSelect.addEventListener('change', () => {
+            setStepDone(2, true);
+        });
+    }
+
+    // 3) Zapis przetworników
+    if (btnSaveTrans) {
+        btnSaveTrans.addEventListener('click', () => {
+            setStepDone(3, true);
+        });
+    }
+
+    // 4) Ustawienie początku
+    if (btnStart) {
+        btnStart.addEventListener('click', () => {
+            setStepDone(4, true);
+        });
+    }
+
+    // 5) Ustawienie końca
+    if (btnEnd) {
+        btnEnd.addEventListener('click', () => {
+            setStepDone(5, true);
+        });
+    }
+
+    // 6) Wczytanie danych
+    if (loadDataBtn) {
+        loadDataBtn.addEventListener('click', () => {
+            setStepDone(6, true);
+        });
+    }
+})();
+</script>
 
 
 </body>

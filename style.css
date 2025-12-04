@@ -30,12 +30,44 @@ body {
 }
 
 .top-bar {
-    background-color: var(--panel);
-    padding: 15px 20px;
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #0e2033 0%,
+        #0b1929 40%,
+        #09121f 100%
+    );
+
+    padding: 14px 20px;
     border-radius: 10px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.05);
 }
+
+/* micro-glow na górnej krawędzi – jak w panelach */
+.top-bar::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.18) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+
+    pointer-events: none;
+}
+
 
 .top-bar h1 {
     margin: 0;
@@ -887,4 +919,30 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     margin-left: 6px;
 }
 
+/* === WSKAŹNIK KROKÓW (ZIELONE KWADRATY) === */
+
+/* ===== KROKI POSTĘPU — PŁASKI PASEK ===== */
+
+.step-indicators {
+    margin-top: 65px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 8px; /* małe przerwy między segmentami */
+}
+
+.step-dot {
+    height: 1px;              /* płaskie */
+    width: 75px;              /* szerokie segmenty */
+    background-color: #2a3140; 
+    border-radius: 2px;       
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* aktywny krok – ZIELONY segment */
+.step-dot--active {
+    background-color: #66ff00;
+    box-shadow: 0 0 6px rgba(102,255,0,0.7);
+}
 
