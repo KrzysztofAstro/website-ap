@@ -435,11 +435,6 @@ table tr:hover {
 
 /* === LEWY PANEL – NOWY UKŁAD === */
 /* --- LEWY PANEL: LISTA + KOLUMNA PRZYCISKÓW --- */
-.panel-left-content {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-}
 
 /* lista zwężona, ale ładnie przy lewej */
 /* --- LEWY PANEL: LISTA + KOLUMNA PRZYCISKÓW --- */
@@ -497,10 +492,6 @@ table tr:hover {
 
 
 /* Firefox */
-.transducers-list {
-    scrollbar-width: auto;
-    scrollbar-color: #0f386c #021526;
-}
 
 .progress-log-window {
     scrollbar-width: auto;
@@ -548,7 +539,7 @@ table tr:hover {
         180deg,
         #ffe785 0%,
         #f4cf02 40%,
-        #c8a801 100%;
+        #c8a801 100%
     );
     box-shadow: 0 0 8px rgba(244, 207, 2, 0.55);
 }
@@ -569,6 +560,114 @@ input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
     filter: invert(0.8);      /* robi z czarnej ikony jasną */
     cursor: pointer;
+}
+
+/* === KALENDARZ CUSTOM DARK === */
+
+.calendar-group .calendar-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#data {
+    cursor: pointer;
+}
+
+/* okno kalendarza */
+.custom-calendar {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 260px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #020915;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.85);
+    z-index: 50;
+}
+
+.custom-calendar.hidden {
+    display: none;
+}
+
+/* nagłówek kalendarza */
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.cal-month-year {
+    display: flex;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--tekst2);
+}
+
+.cal-nav {
+    background: #032033;
+    color: #ffffff;
+    border: 1px solid var(--btn-border);
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 2px 8px;
+    cursor: pointer;
+}
+
+.cal-nav:hover {
+    background-color: #092a45;
+}
+
+/* dni tygodnia */
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    color: var(--tekst2);
+    text-align: center;
+}
+
+/* komórki z dniami */
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    font-size: 12px;
+}
+
+.calendar-day {
+    padding: 5px 0;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #08101c;
+    color: var(--tekst);
+    border: 1px solid transparent;
+}
+
+.calendar-day.other-month {
+    opacity: 0.35;
+    color: var(--tekst2);
+}
+
+.calendar-day:hover {
+    border-color: var(--btn-border);
+    box-shadow: 0 0 6px rgba(33,56,98,0.5);
+}
+
+.calendar-day.today {
+    border-color: var(--akcent);
+}
+
+.calendar-day.selected {
+    background: linear-gradient(135deg, #f4cf02, #cfa501);
+    color: #000;
+    box-shadow: 0 0 10px rgba(244,207,2,0.6);
+    font-weight: 700;
 }
 
 
