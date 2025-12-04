@@ -47,8 +47,9 @@ body {
 /* === LAYOUT PANELI === */
 .main {
     display: grid;
-    grid-template-columns: 1.1fr 2.2fr 1.2fr;
+    grid-template-columns: 1.0fr 1.6fr 0.8fr;
     gap: 15px;
+    margin-bottom: 20px;   /* odstęp między górnym rzędem paneli a kolejnymi */
 }
 
 .panel {
@@ -108,6 +109,8 @@ label {
 
 input[type="text"],
 input[type="number"],
+input[type="date"],
+input[type="time"],
 select {
     width: 100%;
     padding: 6px 8px;
@@ -120,11 +123,14 @@ select {
 
 input[type="text"]:focus,
 input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
 select:focus {
     outline: none;
     border-color: var(--btn-border);
     box-shadow: 0 0 8px rgba(33,56,98,0.4);
 }
+
 
 /* --- CUSTOM CHECKBOX Z ANIMACJĄ I GLOW --- */
 
@@ -289,5 +295,280 @@ table tr:hover {
     height: 100%;
 }
 
+/* top-bar jako flex */
+.top-bar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-bar-db {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+}
+
+.top-bar-db select {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background-color: var(--panel-ciemny);
+    color: var(--tekst);
+}
+
+.db-connect {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--tekst2);
+}
+
+/* lista przetworników – tylko wygląd, BEZ scrolla */
+.transducers-list {
+    padding: 8px;
+    margin: 0;
+    background-color: var(--panel-ciemny);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+
+.transducers-list label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+/* układ wierszy czasu */
+.time-row {
+    display: grid;
+    grid-template-columns: 2fr auto;
+    gap: 10px;
+    align-items: end;
+}
+
+.time-col button,
+.time-col-button button {
+    width: 100%;
+}
+
+/* panel postępu */
+.progress-log-window {
+    height: 160px;
+    overflow-y: auto;
+    padding: 8px;
+    margin-bottom: 10px;
+    background-color: var(--panel-ciemny);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+}
+
+.progress-log-window p {
+    margin: 0 0 4px 0;
+}
+
+.progress-bar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 18px;
+    border-radius: 999px;
+    background-color: #020915;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #f4cf02, #ffe785);
+}
+
+.progress-bar-label {
+    font-size: 12px;
+    color: var(--tekst2);
+}
+
+/* panel filtrów wykresu */
+.panel-chart-filters select {
+    min-height: 60px;
+}
+
+/* === UNIWERSALNY ROZMIAR PRZYCISKÓW === */
+/* === UNIWERSALNY ROZMIAR PRZYCISKÓW === */
+.panel button {
+    background: #032033;
+    color: #ffffff;
+    border: 1px solid var(--btn-border);
+
+    height: 34px;           /* ta sama wysokość dla wszystkich */
+    padding: 0 16px;        /* trochę poziomego oddechu */
+
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+
+    transition:
+        background-color 0.15s ease,
+        box-shadow 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.panel button:hover {
+    background-color: #092a45;
+    box-shadow: 0 0 6px rgba(33,56,98,0.4);
+}
+
+.panel button:active {
+    box-shadow: 0 0 3px rgba(33,56,98,0.2);
+}
+
+/* === LEWY PANEL – NOWY UKŁAD === */
+/* --- LEWY PANEL: LISTA + KOLUMNA PRZYCISKÓW --- */
+.panel-left-content {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+/* lista zwężona, ale ładnie przy lewej */
+/* --- LEWY PANEL: LISTA + KOLUMNA PRZYCISKÓW --- */
+.panel-left-content {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-top: 8px;
+}
+
+/* lista zwężona, po lewej */
+.panel-left .transducers-list {
+    padding: 8px;
+    margin: 0;
+    background-color: var(--panel-ciemny);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+/* nowy wrapper ze scrollem */
+.transducers-scroll {
+    flex: 1;
+    height: 420px;         /* wysokość jak wcześniej */
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+
+
+/* kolumna z przyciskami po prawej */
+.panel-left-buttons {
+    width: 140px;                 /* STAŁA szerokość kolumny */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* przyciski w tej kolumnie – wypełniają całą kolumnę */
+.panel-left-buttons button {
+    width: 100%;
+}
+
+/* GÓRNE PANELE – minimalna wysokość */
+.panel-left,
+.panel-middle,
+.panel-right {
+    min-height: 420px;  /* możesz podbić np. do 450px */
+}
+/* Przyciski Początek / Koniec – stała szerokość */
+.time-col-button button {
+    width: 130px;     /* TAKA SAMA szerokość jak lewa kolumna */
+}
+
+/* ===== CUSTOM SCROLLBAR – CIEMNY + AKCENT ===== */
+
+
+/* Firefox */
+.transducers-list {
+    scrollbar-width: auto;
+    scrollbar-color: #0f386c #021526;
+}
+
+.progress-log-window {
+    scrollbar-width: auto;
+    scrollbar-color: #0f386c #021526;
+}
+
+.panel-left .transducers-list {
+    padding: 8px;
+    margin: 0;
+    background-color: var(--panel-ciemny);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+/* ===== ZŁOTY SCROLLBAR — CHROME / EDGE ===== */
+
+.transducers-scroll::-webkit-scrollbar,
+.progress-log-window::-webkit-scrollbar {
+    width: 14px;
+}
+
+.transducers-scroll::-webkit-scrollbar-track,
+.progress-log-window::-webkit-scrollbar-track {
+    background: #021526;
+    border-radius: 10px;
+    border: 1px solid #213862;
+}
+
+.transducers-scroll::-webkit-scrollbar-thumb,
+.progress-log-window::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        #f4cf02 0%,
+        #c8a801 60%,
+        #9f8500 100%
+    );
+    border-radius: 10px;
+    border: 1px solid #f4cf02;
+    box-shadow: 0 0 6px rgba(244, 207, 2, 0.35);
+}
+
+.transducers-scroll::-webkit-scrollbar-thumb:hover,
+.progress-log-window::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        #ffe785 0%,
+        #f4cf02 40%,
+        #c8a801 100%;
+    );
+    box-shadow: 0 0 8px rgba(244, 207, 2, 0.55);
+}
+
+/* ===== FIREFOX ===== */
+
+.transducers-scroll {
+    scrollbar-width: auto;
+    scrollbar-color: #f4cf02 #021526;
+}
+
+.progress-log-window {
+    scrollbar-width: auto;
+    scrollbar-color: #f4cf02 #021526;
+}
+/* ikona w input[type=date/time] – dopasowana do dark UI */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);      /* robi z czarnej ikony jasną */
+    cursor: pointer;
+}
 
 
