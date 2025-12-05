@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Panel przetwarzania danych</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./chart.js"></script>
+</head>
+<body>
+<div class="app">
+
+    <!-- GÓRNY PASEK -->
+    <header class="top-bar">
+        <div class="top-bar-inner">
+            <h1>Panel przetwarzania danych</h1>
+
+            	<div class="top-bar-db">
+                <div class="db-select-group">
+    <span class="db-label">Wybór bazy:</span>
+    <select name="baza" id="baza">
+        <option>Testowa baza 1</option>
+        <option>Testowa baza 2</option>
+    </select>
+</div>
+
+                <div class="db-connect">
+    <img id="dbIcon"
+         src="rect10.svg"
+         class="db-icon"
+         alt="db-icon">
+
+    <span id="dbLabel">Połącz z bazą</span>
+		</div>
+
+
+
+            </div>
+        </div>
+    </header>
+
+    <!-- TRZY GÓRNE PANELE -->
+    <main class="main">
+
+        <!-- LEWY PANEL: WYBÓR PRZETWORNIKA -->
+        <section class="panel panel-left">
+            <h2>Wybór przetwornika</h2>
+
+            <div class="panel-left-content">
+                <!-- LEWA STRONA – LISTA W SCROLLU -->
+                <div class="transducers-scroll">
+                    <div class="transducers-list">
+                        <label><input type="checkbox"> Przetwornik 1</label>
+                        <label><input type="checkbox"> Przetwornik 2</label>
+                        <label><input type="checkbox"> Przetwornik 3</label>
+                        <label><input type="checkbox"> Przetwornik 4</label>
+                        <label><input type="checkbox"> Przetwornik 5</label>
+                        <label><input type="checkbox"> Przetwornik 6</label>
+                        <label><input type="checkbox"> Przetwornik 7</label>
+                        <label><input type="checkbox"> Przetwornik 8</label>
+                        <label><input type="checkbox"> Przetwornik 9</label>
+                        <label><input type="checkbox"> Przetwornik 10</label>
+                        <label><input type="checkbox"> Przetwornik 11</label>
+                        <label><input type="checkbox"> Przetwornik 12</label>
+                        <label><input type="checkbox"> Przetwornik 13</label>
+                        <label><input type="checkbox"> Przetwornik 14</label>
+                        <label><input type="checkbox"> Przetwornik 15</label>
+                        <label><input type="checkbox"> Przetwornik 16</label>
+                        <label><input type="checkbox"> Przetwornik 17</label>
+                        <label><input type="checkbox"> Przetwornik 18</label>
+                        <label><input type="checkbox"> Przetwornik 19</label>
+                        <label><input type="checkbox"> Przetwornik 20</label>
+                    </div>
+                </div>
+
+                <!-- PRAWA STRONA – KOLUMNA PRZYCISKÓW -->
+                <div class="panel-left-buttons">
+                    <button type="button">Wczytaj listę</button>
+                    <button type="button">Zaznacz wszystkie</button>
+                    <button type="button">Odznacz wszystkie</button>
+		    <button type="button" id="btnSaveTransducers">Zapisz</button>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ŚRODKOWY PANEL: WYBÓR DATY I GODZINY -->
+        <section class="panel panel-middle">
+    <h2>Wybór daty i godziny</h2>
+
+    <!-- CUSTOM KALENDARZ -->
+    <div class="form-group calendar-group">
+        <label for="data">Data</label>
+        <div class="calendar-wrapper">
+		<input type="text" id="data" name="data" placeholder="RRRR-MM-DD" readonly class="input-digital">
+
+
+            <div id="custom-calendar" class="custom-calendar hidden">
+                <div class="calendar-header">
+                    <button type="button" class="cal-nav cal-prev">&lt;</button>
+                    <div class="cal-month-year">
+                        <span class="cal-month"></span>
+                        <span class="cal-year"></span>
+                    </div>
+                    <button type="button" class="cal-nav cal-next">&gt;</button>
+                </div>
+
+                <div class="calendar-weekdays">
+                    <span>Pn</span><span>Wt</span><span>Śr</span><span>Cz</span><span>Pt</span><span>So</span><span>Nd</span>
+                </div>
+
+                <div class="calendar-days"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM TIME PICKER – POCZĄTEK -->
+    <div class="form-group time-row">
+        <div class="time-col">
+            <label for="startTime">Wybór godziny i minuty (początek)</label>
+            <div class="time-wrapper">
+		<input type="text" id="startTime" name="startTime" placeholder="hh:mm" readonly class="input-digital">
+
+               <div class="custom-time hidden">
+                    <div class="time-columns">
+                        <div class="time-col-block">
+                            <div class="time-col-label">Godzina</div>
+                            <div class="time-values time-hours"></div>
+                        </div>
+                        <div class="time-col-block">
+                            <div class="time-col-label">Minuta</div>
+                            <div class="time-values time-minutes"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="time-col-button">
+   	 <button id="btnStart" type="button">Początek</button>
+	</div>
+    </div>
+
+    <!-- CUSTOM TIME PICKER – KONIEC -->
+    <div class="form-group time-row">
+        <div class="time-col">
+            <label for="endTime">Wybór godziny i minuty (koniec)</label>
+            <div class="time-wrapper">
+			<input type="text" id="endTime" name="endTime" placeholder="hh:mm" readonly class="input-digital">
+                <div class="custom-time hidden">
+                    <div class="time-columns">
+                        <div class="time-col-block">
+                            <div class="time-col-label">Godzina</div>
+                            <div class="time-values time-hours"></div>
+                        </div>
+                        <div class="time-col-block">
+                            <div class="time-col-label">Minuta</div>
+                            <div class="time-values time-minutes"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="time-col-button">
+    	<button id="btnEnd" type="button">Koniec</button>
+	</div>
+    </div>
+    <!-- PODSUMOWANIE ZAKRESU CZASU -->
+    <div class="time-summary">
+    <div class="time-summary-row">
+        <div class="time-summary-box" id="startSummaryBox">–</div>
+        <div class="time-summary-label" id="startSummaryLabel"></div>
+    </div>
+
+    <div class="time-summary-row">
+        <div class="time-summary-box" id="endSummaryBox">–</div>
+        <div class="time-summary-label" id="endSummaryLabel"></div>
+    </div>
+
+    <div class="time-summary-actions">
+        <div class="panel-left-buttons">
+            <button type="button" id="loadDataBtn">Wczytaj dane</button>
+        </div>
+    </div>
+<div class="step-indicators">
+    <div class="step-dot" data-step="1" title="Połączenie z bazą"></div>
+    <div class="step-dot" data-step="2" title="Wybór bazy"></div>
+    <div class="step-dot" data-step="3" title="Zapis przetworników"></div>
+    <div class="step-dot" data-step="4" title="Ustawiono początek"></div>
+    <div class="step-dot" data-step="5" title="Ustawiono koniec"></div>
+    <div class="step-dot" data-step="6" title="Wczytano dane"></div>
+</div>
+
+
+</div>
+
+	
+
+
+</section>
+
+
+        <!-- PRAWY PANEL: POSTĘP -->
+        <section class="panel panel-right">
+            <h2>Postęp</h2>
+
+            <div class="progress-log">
+                <div class="progress-log-window">
+                    <!-- docelowo tutaj będziemy dopisywać log z przetwarzania -->
+                    <p>Rozpoczęto przetwarzanie...</p>
+                    <p>Przetwornik 1 zapisany...</p>
+                    <p>Przetwornik 2 zapisany...</p>
+                    <p>...</p>
+                </div>
+
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 40%;"></div>
+                    </div>
+                    <span class="progress-bar-label">40%</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PANEL: WYBÓR PRZETWORNIKÓW DO WYKRESU -->
+    <section class="panel panel-chart-filters">
+        <h2>Wybór przetworników do prezentacji na wykresie</h2>
+        <div class="form-group">
+            <div class="transducers-list wykres-lista">
+                <label><input type="checkbox"> Przetwornik 1</label>
+                <label><input type="checkbox"> Przetwornik 2</label>
+                <label><input type="checkbox"> Przetwornik 3</label>
+                <label><input type="checkbox"> Przetwornik 4</label>
+                <label><input type="checkbox"> Przetwornik 3</label>
+                <label><input type="checkbox"> Przetwornik 4</label>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANEL: WYKRES (CAŁA SZEROKOŚĆ) -->
+    <section class="panel panel-chart">
+        <h2>Wykres przetwarzanych danych</h2>
+        <div class="chart-wrapper">
+            <canvas id="mainChart"></canvas>
+        </div>
+    </section>
+
+</div>
+
+<!-- SKRYPT TWORZĄCY WYKRES + KALENDARZ -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // === WYKRES ===
+    const rootStyles = getComputedStyle(document.documentElement);
+    const akcent = rootStyles.getPropertyValue('--akcent').trim();
+    const tekst2 = rootStyles.getPropertyValue('--tekst2').trim();
+
+    const ctx = document.getElementById('mainChart').getContext('2d');
+
+    const digitalFont = 'Digital7Italic, monospace';
+
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Rekord 1', 'Rekord 2', 'Rekord 3', 'Rekord 4', 'Rekord 5', 'Rekord 6'],
+        datasets: [
+            {
+                label: 'Wartość po przetworzeniu',
+                data: [120, 150, 90, 200, 170, 140],
+                borderWidth: 2,
+                tension: 0.25,
+                pointRadius: 4,
+                pointHoverRadius: 5,
+                fill: true,
+                borderColor: akcent,
+                backgroundColor: 'rgba(244, 207, 2, 0.15)'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: tekst2,
+                    font: {
+                        family: digitalFont
+                    }
+                }
+            },
+            tooltip: {
+                bodyFont: {
+                    family: digitalFont
+                },
+                titleFont: {
+                    family: digitalFont
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: tekst2,
+                    font: {
+                        family: digitalFont
+                    }
+                },
+                grid: {
+                    color: 'rgba(255,255,255,0.04)'
+                }
+            },
+            y: {
+                ticks: {
+                    color: tekst2,
+                    font: {
+                        family: digitalFont
+                    }
+                },
+                grid: {
+                    color: 'rgba(255,255,255,0.06)'
+                }
+            }
+        }
+    }
+});
+
+
+    // === CUSTOM KALENDARZ ===
+    const dateInput = document.getElementById('data');
+    const calendarEl = document.getElementById('custom-calendar');
+    const monthLabel = calendarEl.querySelector('.cal-month');
+    const yearLabel = calendarEl.querySelector('.cal-year');
+    const daysContainer = calendarEl.querySelector('.calendar-days');
+    const prevBtn = calendarEl.querySelector('.cal-prev');
+    const nextBtn = calendarEl.querySelector('.cal-next');
+
+    let currentDate = new Date();
+    let selectedDate = null;
+
+    const monthNames = [
+        "Styczeń", "Luty", "Marzec", "Kwiecień",
+        "Maj", "Czerwiec", "Lipiec", "Sierpień",
+        "Wrzesień", "Październik", "Listopad", "Grudzień"
+    ];
+
+    function pad(n) {
+        return n < 10 ? "0" + n : "" + n;
+    }
+
+    function renderCalendar(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+
+        monthLabel.textContent = monthNames[month];
+        yearLabel.textContent = year;
+
+        const firstDay = new Date(year, month, 1);
+        const startDay = (firstDay.getDay() + 6) % 7; // poniedziałek = 0
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+        daysContainer.innerHTML = "";
+
+        // dni z poprzedniego miesiąca
+        for (let i = 0; i < startDay; i++) {
+            const dayNum = daysInPrevMonth - startDay + 1 + i;
+            const div = document.createElement('div');
+            div.className = 'calendar-day other-month';
+            div.textContent = dayNum;
+            daysContainer.appendChild(div);
+        }
+
+        // dni bieżącego miesiąca
+        const today = new Date();
+        for (let d = 1; d <= daysInMonth; d++) {
+            const div = document.createElement('div');
+            div.className = 'calendar-day';
+            div.textContent = d;
+
+            const thisDate = new Date(year, month, d);
+
+            // dzisiaj
+            if (
+                thisDate.getFullYear() === today.getFullYear() &&
+                thisDate.getMonth() === today.getMonth() &&
+                thisDate.getDate() === today.getDate()
+            ) {
+                div.classList.add('today');
+            }
+
+            // zaznaczona data
+            if (
+                selectedDate &&
+                thisDate.getFullYear() === selectedDate.getFullYear() &&
+                thisDate.getMonth() === selectedDate.getMonth() &&
+                thisDate.getDate() === selectedDate.getDate()
+            ) {
+                div.classList.add('selected');
+            }
+
+            div.addEventListener('click', () => {
+                selectedDate = thisDate;
+                dateInput.value = `${year}-${pad(month + 1)}-${pad(d)}`;
+                calendarEl.classList.add('hidden');
+                renderCalendar(currentDate); // odśwież, żeby selected się pokazał
+            });
+
+            daysContainer.appendChild(div);
+        }
+
+        // uzupełnienie końca siatki
+        const totalCells = startDay + daysInMonth;
+        const rest = totalCells % 7;
+        if (rest !== 0) {
+            const nextDays = 7 - rest;
+            for (let i = 1; i <= nextDays; i++) {
+                const div = document.createElement('div');
+                div.className = 'calendar-day other-month';
+                div.textContent = i;
+                daysContainer.appendChild(div);
+            }
+        }
+    }
+
+    // otwieranie / zamykanie kalendarza
+    if (dateInput) {
+        dateInput.addEventListener('click', () => {
+            calendarEl.classList.toggle('hidden');
+        });
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar(currentDate);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar(currentDate);
+    });
+
+    // klik poza kalendarz = zamknij
+    document.addEventListener('click', (e) => {
+        if (!calendarEl.contains(e.target) && e.target !== dateInput) {
+            calendarEl.classList.add('hidden');
+        }
+    });
+
+    // pierwsze renderowanie
+    renderCalendar(currentDate);
+    // === CUSTOM TIME PICKERS (start / end) ===
+    function pad2(n) {
+        return n < 10 ? "0" + n : "" + n;
+    }
+
+    function initTimePicker(wrapper) {
+        const input = wrapper.querySelector('input');
+        const panel = wrapper.querySelector('.custom-time');
+        const hoursBox = panel.querySelector('.time-hours');
+        const minutesBox = panel.querySelector('.time-minutes');
+
+        let selectedHour = null;
+        let selectedMinute = null;
+
+        // render godzin 00–23
+        for (let h = 0; h < 24; h++) {
+            const div = document.createElement('div');
+            div.className = 'time-cell time-hour';
+            div.textContent = pad2(h);
+            div.dataset.value = pad2(h);
+
+            div.addEventListener('click', () => {
+                selectedHour = div.dataset.value;
+
+                hoursBox.querySelectorAll('.time-cell').forEach(c => c.classList.remove('selected'));
+                div.classList.add('selected');
+
+                if (selectedHour !== null && selectedMinute !== null) {
+                    input.value = `${selectedHour}:${selectedMinute}`;
+                }
+            });
+
+            hoursBox.appendChild(div);
+        }
+
+        // render minut 00–59 (co 1, jak chcesz co 5 – zmienisz krok)
+        for (let m = 0; m < 60; m++) {
+            const div = document.createElement('div');
+            div.className = 'time-cell time-minute';
+            div.textContent = pad2(m);
+            div.dataset.value = pad2(m);
+
+            div.addEventListener('click', () => {
+                selectedMinute = div.dataset.value;
+
+                minutesBox.querySelectorAll('.time-cell').forEach(c => c.classList.remove('selected'));
+                div.classList.add('selected');
+
+                if (selectedHour !== null && selectedMinute !== null) {
+                    input.value = `${selectedHour}:${selectedMinute}`;
+                }
+            });
+
+            minutesBox.appendChild(div);
+        }
+
+        // otwieranie/zamykanie panelu
+        input.addEventListener('click', () => {
+            panel.classList.toggle('hidden');
+        });
+
+        // klik poza – zamknij
+        document.addEventListener('click', (e) => {
+            if (!wrapper.contains(e.target)) {
+                panel.classList.add('hidden');
+            }
+        });
+    }
+
+    // inicjalizacja dla obu pól czasu
+    document.querySelectorAll('.time-wrapper').forEach(wrapper => {
+        initTimePicker(wrapper);
+    });
+
+
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const icon = document.getElementById("dbIcon");
+    const label = document.getElementById("dbLabel");
+
+    let connected = false;
+
+    icon.addEventListener("click", () => {
+        connected = !connected;
+
+        if (connected) {
+            icon.src = "rect08.svg";
+            label.textContent = "Połączono";
+        } else {
+            icon.src = "rect10.svg";
+            label.textContent = "Połącz z bazą";
+        }
+
+        // === KROK 1: zapal / zgaś pierwszą kropkę ===
+        const stepDot1 = document.querySelector('.step-dot[data-step="1"]');
+        if (stepDot1) {
+            stepDot1.classList.toggle('step-dot--active', connected);
+        }
+    });
+});
+</script>
+
+
+<!-- SKRYPT OBSŁUGUJĄCY POCZĄTEK / KONIEC POMIARU -->
+<script>
+// Ten kod działa, bo jest na dole strony – wszystkie elementy już istnieją.
+
+const startBox = document.getElementById("startSummaryBox");
+const endBox   = document.getElementById("endSummaryBox");
+
+const startLabel = document.getElementById("startSummaryLabel");
+const endLabel   = document.getElementById("endSummaryLabel");
+
+const dateInput  = document.getElementById("data");
+const startTime  = document.getElementById("startTime");
+const endTime    = document.getElementById("endTime");
+
+const btnStart = document.getElementById("btnStart");
+const btnEnd   = document.getElementById("btnEnd");
+
+if (btnStart) {
+    btnStart.addEventListener("click", () => {
+        if (dateInput.value && startTime.value) {
+           startBox.innerHTML = `
+    		<span class="sum-date">${dateInput.value}</span>
+    		<span class="sum-time">${startTime.value}</span>
+				`;
+
+            if (startLabel) {
+                startLabel.textContent = "Wybrano początek pomiaru";
+                startLabel.classList.add("visible");
+            }
+        } else {
+            startBox.textContent = "Nie wybrano daty lub godziny";
+        }
+    });
+}
+
+if (btnEnd) {
+    btnEnd.addEventListener("click", () => {
+        if (dateInput.value && endTime.value) {
+            endBox.innerHTML = `
+    	<span class="sum-date">${dateInput.value}</span>
+    	<span class="sum-time">${endTime.value}</span>
+				`;
+
+            if (endLabel) {
+                endLabel.textContent = "Wybrano koniec pomiaru";
+                endLabel.classList.add("visible");
+            }
+        } else {
+            endBox.textContent = "Nie wybrano daty lub godziny";
+        }
+    });
+}
+</script>
+
+<script>
+(function() {
+    // helper do włączania / wyłączania pojedynczego kroku
+    function setStepDone(stepNumber, done) {
+        const el = document.querySelector('.step-dot[data-step="' + stepNumber + '"]');
+        if (!el) return;
+        el.classList.toggle('step-dot--active', !!done);
+    }
+
+    // ELEMENTY, KTÓRE NAS INTERESUJĄ
+    const dbIcon            = document.getElementById('dbIcon');              // krok 1
+    const dbLabel           = document.getElementById('dbLabel');
+    const dbSelect          = document.getElementById('baza');                // krok 2
+    const btnSaveTrans      = document.getElementById('btnSaveTransducers');  // krok 3
+    const btnStart          = document.getElementById('btnStart');            // krok 4
+    const btnEnd            = document.getElementById('btnEnd');              // krok 5
+    const loadDataBtn       = document.getElementById('loadDataBtn');         // krok 6
+
+    // 1) Połączenie z bazą – zapalamy gdy jest "Połączono"
+       // 2) Wybór bazy – wystarczy zmiana opcji
+    if (dbSelect) {
+        dbSelect.addEventListener('change', () => {
+            setStepDone(2, true);
+        });
+    }
+
+    // 3) Zapis przetworników
+    if (btnSaveTrans) {
+        btnSaveTrans.addEventListener('click', () => {
+            setStepDone(3, true);
+        });
+    }
+
+    // 4) Ustawienie początku
+    if (btnStart) {
+        btnStart.addEventListener('click', () => {
+            setStepDone(4, true);
+        });
+    }
+
+    // 5) Ustawienie końca
+    if (btnEnd) {
+        btnEnd.addEventListener('click', () => {
+            setStepDone(5, true);
+        });
+    }
+
+    // 6) Wczytanie danych
+    if (loadDataBtn) {
+        loadDataBtn.addEventListener('click', () => {
+            setStepDone(6, true);
+        });
+    }
+})();
+</script>
+
+
+</body>
+</html>
+

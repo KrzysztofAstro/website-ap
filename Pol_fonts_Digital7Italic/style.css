@@ -1,0 +1,1085 @@
+/* === KOLORY GŁÓWNE === */
+:root {
+    --tlo: #0c101b;        /* tło strony */
+    --tekst: #dfe1e4;      /* główny tekst */
+    --tekst2: #9d9d9d;     /* etykiety i nagłówki */
+    --akcent: #f4cf02;     /* ptaszek checkboxa */
+    --panel: #021d38;
+    --panel-ciemny: #001526;
+    --border: #264766;
+    --btn-border: #213862; /* obramowanie przycisku */
+}
+
+@font-face {
+    font-family: 'Digital7Italic';
+    src: url('fonts/digital-7 (italic).ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* === RESET / OGÓLNY STYL === */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--tlo);
+    color: var(--tekst);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* === STRUKTURA STRONY === */
+.app {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.top-bar {
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #0e2033 0%,
+        #0b1929 40%,
+        #09121f 100%
+    );
+
+    padding: 14px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* micro-glow na górnej krawędzi – jak w panelach */
+.top-bar::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.18) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+
+    pointer-events: none;
+}
+
+
+.top-bar h1 {
+    margin: 0;
+    font-size: 22px;
+    color: var(--tekst);
+    letter-spacing: 0.03em;
+}
+
+/* === LAYOUT PANELI === */
+.main {
+    display: grid;
+    grid-template-columns: 1.2fr 1.4fr 0.8fr;
+    gap: 15px;
+    margin-bottom: 20px;   /* odstęp między górnym rzędem paneli a kolejnymi */
+}
+
+.panel {
+    background: linear-gradient(
+        135deg,
+        #0e2033 0%,
+        #0b1929 40%,
+        #09121f 100%
+    );
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden; /* ważne, żeby glow nie wychodził poza panel */
+}
+
+
+.panel::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 2px; /* ultra cienki pasek — micro-glow */
+
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.18) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+
+    pointer-events: none;
+}
+
+.panel h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--tekst2);
+}
+
+/* === FORMULARZE === */
+.form-group {
+    margin-bottom: 12px;
+}
+
+label {
+    color: var(--tekst2);
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background-color: var(--panel-ciemny);
+    color: var(--tekst);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--btn-border);
+    box-shadow: 0 0 8px rgba(33,56,98,0.4);
+}
+
+
+/* --- CUSTOM CHECKBOX Z ANIMACJĄ I GLOW --- */
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 18px;
+    height: 18px;
+
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--panel-ciemny);
+
+    cursor: pointer;
+    position: relative;
+    margin-right: 6px;
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+/* efekt hover na polu wyboru */
+input[type="checkbox"]:hover {
+    border-color: var(--akcent);
+    box-shadow: 0 0 6px rgba(244, 207, 2, 0.35);
+}
+
+/* Ptaszek */
+input[type="checkbox"]::after {
+    content: "";
+    position: absolute;
+    display: none;
+
+    left: 4px;
+    top: 0px;
+
+    width: 5px;
+    height: 10px;
+
+    border: solid var(--akcent);
+    border-width: 0 2px 2px 0;
+
+    transform: rotate(45deg);
+}
+
+/* Gdy zaznaczony, pokaż ptaszka + glow + animacja POP */
+input[type="checkbox"]:checked {
+    border-color: var(--akcent);
+    background-color: #2b2304;
+    box-shadow: 0 0 10px rgba(244, 207, 2, 0.55);
+}
+
+input[type="checkbox"]:checked::after {
+    display: block;
+    animation: pop 0.18s ease-out;
+}
+
+/* animacja pojawiania się ptaszka */
+@keyframes pop {
+    0% {
+        transform: scale(0.4) rotate(45deg);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) rotate(45deg);
+        opacity: 1;
+    }
+}
+/* === PRZYCISK "PRZETWÓRZ DANE" === */
+button {
+    background: #032033;
+    color: #ffffff;
+    border: 2px solid var(--btn-border);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.15s ease,
+        background-color 0.15s ease;
+}
+
+button:hover {
+    background-color: #092a45;
+    box-shadow: 0 0 10px rgba(33,56,98,0.6);
+}
+
+button:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 5px rgba(33,56,98,0.4);
+}
+
+/* === TABELA === */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--tekst);
+    font-size: 14px;
+}
+
+table th {
+    background: linear-gradient(90deg, #042643, #06335a);
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: var(--tekst2);
+}
+
+table td {
+    padding: 7px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+table tr:nth-child(even) {
+    background-color: #02162b;
+}
+
+table tr:hover {
+    background-color: #062440;
+}
+
+.cell-checkbox label {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* === PANEL WYNIKOWY === */
+.result-box {
+    background-color: var(--panel-ciemny);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 13px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.7);
+}
+
+.result-box strong {
+    color: var(--tekst2);
+}
+
+/* === RESPONSYWNOŚĆ === */
+@media (max-width: 900px) {
+    .main {
+        grid-template-columns: 1fr;
+    }
+}
+/* === PANEL Z WYKRESEM === */
+.panel-chart {
+    margin-top: 20px;
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 260px; /* możesz podbić np. do 320px jak chcesz wyższy wykres */
+}
+
+#mainChart {
+    width: 100%;
+    height: 100%;
+}
+
+/* top-bar jako flex */
+.top-bar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-bar-db {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+}
+
+.top-bar-db select {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background-color: var(--panel-ciemny);
+    color: var(--tekst);
+}
+
+.db-select-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;   /* nie łamie linii */
+}
+
+.db-label {
+    color: var(--tekst2);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.db-select-group select {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background-color: var(--panel-ciemny);
+    color: var(--tekst);
+    min-width: 150px;  /* żeby wyglądało równo */
+}
+
+
+.db-connect {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--tekst2);
+}
+
+/* lista przetworników – tylko wygląd, BEZ scrolla */
+.transducers-list {
+    padding: 8px;
+    margin: 0;
+    background-color: var(--panel-ciemny);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+
+.transducers-list label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+/* układ wierszy czasu */
+.time-row {
+    display: grid;
+    grid-template-columns: 2fr auto;
+    gap: 10px;
+    align-items: end;
+}
+
+.time-col button,
+.time-col-button button {
+    width: 140px;
+}
+
+/* panel postępu */
+.progress-log-window {
+    height: 370px;
+    overflow-y: auto;
+    padding: 8px;
+    margin-bottom: 10px;
+    background-color: var(--panel-ciemny);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+}
+
+.progress-log-window p {
+    margin: 0 0 4px 0;
+}
+
+.progress-bar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 37px;   /* obniża pasek postępu */
+}
+
+.progress-bar {
+    flex: 1;
+    height: 3px;
+    border-radius: 999px;
+    background-color: #020915;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #f4cf02, #ffe785);
+}
+
+.progress-bar-label {
+    font-size: 12px;
+    color: var(--tekst2);
+}
+
+/* panel filtrów wykresu */
+.panel-chart-filters select {
+    min-height: 60px;
+}
+
+/* === UNIWERSALNY ROZMIAR PRZYCISKÓW === */
+/* === UNIWERSALNY ROZMIAR PRZYCISKÓW === */
+.panel button {
+    background: #032033;
+    color: #ffffff;
+    border: 1px solid var(--btn-border);
+
+    height: 34px;           /* ta sama wysokość dla wszystkich */
+    padding: 0 16px;        /* trochę poziomego oddechu */
+
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+
+    transition:
+        background-color 0.15s ease,
+        box-shadow 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.panel button:hover {
+    background-color: #092a45;
+    box-shadow: 0 0 6px rgba(33,56,98,0.4);
+}
+
+.panel button:active {
+    box-shadow: 0 0 3px rgba(33,56,98,0.2);
+}
+
+/* === LEWY PANEL – NOWY UKŁAD === */
+/* --- LEWY PANEL: LISTA + KOLUMNA PRZYCISKÓW --- */
+
+/* lista zwężona, ale ładnie przy lewej */
+/* --- LEWY PANEL: LISTA + KOLUMNA PRZYCISKÓW --- */
+.panel-left-content {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-top: 8px;
+}
+
+/* lista zwężona, po lewej */
+.panel-left .transducers-list {
+    padding: 8px;
+    margin: 0;
+    background-color: var(--panel-ciemny);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+/* nowy wrapper ze scrollem */
+.transducers-scroll {
+    flex: 1;
+    height: 420px;         /* wysokość jak wcześniej */
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+
+
+/* kolumna z przyciskami po prawej */
+.panel-left-buttons {
+    width: 140px;                 /* STAŁA szerokość kolumny */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* przyciski w tej kolumnie – wypełniają całą kolumnę */
+.panel-left-buttons button {
+    width: 100%;
+}
+
+/* GÓRNE PANELE – minimalna wysokość */
+.panel-left,
+.panel-middle,
+.panel-right {
+    min-height: 420px;  /* możesz podbić np. do 450px */
+}
+/* Przyciski Początek / Koniec – stała szerokość */
+
+/* ===== CUSTOM SCROLLBAR – CIEMNY + AKCENT ===== */
+
+
+/* Firefox */
+
+.progress-log-window {
+    scrollbar-width: auto;
+    scrollbar-color: #0f386c #021526;
+}
+
+.panel-left .transducers-list {
+    padding: 8px;
+    margin: 0;
+    background-color: var(--panel-ciemny);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+/* ===== ZŁOTY SCROLLBAR — CHROME / EDGE ===== */
+
+/* ===== ZŁOTY SCROLLBAR — CHROME / EDGE ===== */
+
+.progress-log-window::-webkit-scrollbar,
+.time-values::-webkit-scrollbar {
+    width: 14px;
+}
+
+.progress-log-window::-webkit-scrollbar-track,
+.time-values::-webkit-scrollbar-track {
+    background: #021526;
+    border-radius: 10px;
+    border: 1px solid #213862;
+}
+
+.progress-log-window::-webkit-scrollbar-thumb,
+.time-values::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        #f4cf02 0%,
+        #c8a801 60%,
+        #9f8500 100%
+    );
+    border-radius: 10px;
+    border: 1px solid #f4cf02;
+    box-shadow: 0 0 6px rgba(244, 207, 2, 0.35);
+}
+
+.progress-log-window::-webkit-scrollbar-thumb:hover,
+.time-values::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        #ffe785 0%,
+        #f4cf02 40%,
+        #c8a801 100%
+    );
+    box-shadow: 0 0 8px rgba(244, 207, 2, 0.55);
+}
+
+
+/* ===== FIREFOX ===== */
+
+/* Firefox – tylko time-values */
+.time-values {
+    scrollbar-width: auto;
+    scrollbar-color: #f4cf02 #021526;
+}
+
+/* Firefox – dla okna logów */
+.progress-log-window {
+    scrollbar-width: auto;
+    scrollbar-color: #f4cf02 #021526;
+}
+
+/* ikona w input[type=date/time] – dopasowana do dark UI */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);      /* robi z czarnej ikony jasną */
+    cursor: pointer;
+}
+
+/* === KALENDARZ CUSTOM DARK === */
+
+.calendar-group .calendar-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#data {
+    cursor: pointer;
+}
+
+/* okno kalendarza */
+.custom-calendar {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 260px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #020915;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.85);
+    z-index: 50;
+}
+
+.custom-calendar.hidden {
+    display: none;
+}
+
+/* nagłówek kalendarza */
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.cal-month-year {
+    display: flex;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--tekst2);
+}
+
+.cal-nav {
+    background: #032033;
+    color: #ffffff;
+    border: 1px solid var(--btn-border);
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 2px 8px;
+    cursor: pointer;
+}
+
+.cal-nav:hover {
+    background-color: #092a45;
+}
+
+/* dni tygodnia */
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    color: var(--tekst2);
+    text-align: center;
+}
+
+/* komórki z dniami */
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    font-size: 12px;
+}
+
+.calendar-day {
+    padding: 5px 0;
+    text-align: center;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #08101c;
+    color: var(--tekst);
+    border: 1px solid transparent;
+}
+
+.calendar-day.other-month {
+    opacity: 0.35;
+    color: var(--tekst2);
+}
+
+.calendar-day:hover {
+    border-color: var(--btn-border);
+    box-shadow: 0 0 6px rgba(33,56,98,0.5);
+}
+
+.calendar-day.today {
+    border-color: var(--akcent);
+}
+
+.calendar-day.selected {
+    background: linear-gradient(135deg, #f4cf02, #cfa501);
+    color: #000;
+    box-shadow: 0 0 10px rgba(244,207,2,0.6);
+    font-weight: 700;
+}
+
+/* === CUSTOM TIME PICKER === */
+
+.time-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.time-wrapper input[readonly] {
+    cursor: pointer;
+}
+
+/* okno czasu */
+.custom-time {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 260px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #020915;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.85);
+    z-index: 50;
+}
+
+.custom-time.hidden {
+    display: none;
+}
+
+.time-columns {
+    display: flex;
+    gap: 10px;
+}
+
+.time-col-block {
+    flex: 1;
+}
+
+.time-col-label {
+    font-size: 11px;
+    color: var(--tekst2);
+    margin-bottom: 4px;
+}
+
+/* listy godzin/minut */
+.time-values {
+    max-height: 160px;
+    overflow-y: auto;
+    padding: 4px;
+    background-color: var(--panel-ciemny);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+/* pojedyncza komórka czasu */
+.time-cell {
+    text-align: center;
+    padding: 4px 0;
+    margin-bottom: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--tekst);
+    font-size: 12px;
+    transition: background-color 0.1s ease, box-shadow 0.1s ease, color 0.1s ease;
+}
+
+.time-cell:hover {
+    background-color: rgba(255,255,255,0.08);
+}
+
+.time-cell.selected {
+    background: linear-gradient(135deg, #f4cf02, #cfa501);
+    color: #000;
+    box-shadow: 0 0 8px rgba(244,207,2,0.6);
+    font-weight: 600;
+}
+
+/* ===== SWITCH SVG ZAMIAST CHECKBOXA ===== */
+
+.db-connect {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    /* ważne: nie pozwalamy, żeby ten blok się ściskał i ciągnął inne */
+    flex-shrink: 0;
+    min-width: 180px;   /* stała minimalna szerokość na ikonę + tekst */
+}
+
+/* tylko ikona jest klikalna */
+.db-icon {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    display: block;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.db-icon:hover {
+    transform: scale(1.0);
+    filter: drop-shadow(0 0 8px rgba(80, 140, 220, 0.75));
+
+}
+
+/* tekst jako stała „kolumna” – żeby nie zmieniał szerokości przy zmianie napisu */
+#dbLabel {
+    color: var(--tekst2);
+    font-size: 14px;
+    display: block;
+    width: 110px;
+    white-space: nowrap;
+    font-family: 'Digital7Italic', monospace;
+    letter-spacing: 0.06em;
+}
+
+/* === PODSUMOWANIE WYBRANEGO ZAKRESU CZASU === */
+
+.time-summary {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.time-summary-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.time-summary-box {
+    min-width: 230px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background-color: var(--panel-ciemny);
+    border: 1px solid var(--border);
+    color: var(--tekst);
+    font-size: 14px;
+}
+
+.time-summary-label {
+    color: var(--tekst2);
+    font-size: 15px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.time-summary-label.visible {
+    opacity: 1;
+}
+
+.time-summary-actions {
+    margin-top: 8px;
+    display: flex;
+    justify-content: flex-end;   /* przycisk wyrównany do prawej */
+}
+
+
+
+/* === Ujednolicenie stylu przycisku "Wczytaj dane" === */
+#loadDataBtn {
+    background: #032033;
+    color: #ffffff;
+    border: 1px solid var(--btn-border);
+    height: 34px;
+    padding: 0 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    width: 140px; /* Żeby pasował do przycisków obok */
+}
+
+#loadDataBtn:hover {
+    background-color: #092a45;
+    box-shadow: 0 0 6px rgba(33,56,98,0.4);
+}
+#loadDataBtn:active {
+    box-shadow: 0 0 3px rgba(33,56,98,0.2);
+}
+
+.sum-date {
+    color: #f4cf02;
+    font-weight: 600;
+    font-family: "Digital7Italic", monospace;
+    letter-spacing: 2px;
+}
+
+.sum-time {
+    color: #66ff00;
+    font-weight: 600;
+    margin-left: 6px;
+    font-family: "Digital7Italic", monospace;
+    letter-spacing: 2px;
+}
+
+
+
+/* === WSKAŹNIK KROKÓW (ZIELONE KWADRATY) === */
+
+/* ===== KROKI POSTĘPU — PŁASKI PASEK ===== */
+
+.step-indicators {
+    margin-top: 65px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 8px; /* małe przerwy między segmentami */
+}
+
+.step-dot {
+    height: 1px;              /* płaskie */
+    width: 75px;              /* szerokie segmenty */
+    background-color: #2a3140; 
+    border-radius: 2px;       
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* aktywny krok – ZIELONY segment */
+.step-dot--active {
+    background-color: #66ff00;
+    box-shadow: 0 0 6px rgba(102,255,0,0.7);
+}
+/* === SCROLLBAR DLA WYBORU PRZETWORNIKA – GRUBY TOR + CIENKI LINIOWY THUMB === */
+
+/* szerokość toru */
+/* === SCROLLBAR DLA WYBORU PRZETWORNIKA – GRUBY TOR + CIENKI ŻÓŁTY PASEK === */
+
+/* szerokość toru */
+.transducers-scroll::-webkit-scrollbar {
+    width: 14px;
+}
+
+/* tło toru */
+.transducers-scroll::-webkit-scrollbar-track {
+    background: #021526;
+    border-radius: 10px;
+    border: 1px solid #213862;
+}
+
+/* thumb = wąski żółty pasek pośrodku */
+.transducers-scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    border: none;
+
+    background: linear-gradient(
+        to right,
+        transparent 0,
+        transparent calc(50% - 0.5px),
+        #f4cf02 calc(50% - 0.5px),
+        #f4cf02 calc(50% + 0.5px),
+        transparent calc(50% + 0.5px),
+        transparent 100%
+    );
+}
+
+
+/* hover – jaśniejszy żółty */
+.transducers-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        to right,
+        transparent 0,
+        transparent calc(50% - 0.5px),
+        #ffe785 calc(50% - 0.5px),
+        #ffe785 calc(50% + 0.5px),
+        transparent calc(50% + 0.5px),
+        transparent 100%
+    );
+}
+.input-digital {
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+/* zamieniamy tylko cyfry */
+.input-digital::placeholder {
+    font-family: 'Digital7Italic', monospace;
+    color: #627a8c; /* subtelny kolor placeholdera */
+}
+
+.input-digital {
+    font-family: 'Digital7Italic', monospace;
+}
+
+/* opcjonalnie neonowy lekki glow */
+.input-digital.glow {
+    text-shadow:
+        0 0 4px rgba(80, 180, 255, 0.8),
+        0 0 8px rgba(80, 180, 255, 0.6);
+}
+/* === CYFROWA CZCIONKA DLA DAT / GODZIN / PODSUMOWAŃ === */
+
+.input-digital,
+.time-summary-box,
+.time-summary-box .sum-date,
+.time-summary-box .sum-time,
+.time-values .time-cell,
+.progress-bar-label,
+.progress-log-window,
+.panel-chart,
+.panel-chart-filters,
+.panel-left .transducers-list {
+    font-family: 'Digital7Italic', monospace;
+    letter-spacing: 0.06em;
+}
+/* === NAGŁÓWKI, PRZYCISKI I OPISY W DIGITAL-7 === */
+
+.top-bar h1,
+.panel h2,
+button,
+label,
+.db-label,
+.time-summary-label {
+    font-family: 'Digital7Italic', monospace;
+    letter-spacing: 0.06em;
+}
+/* CYFRY I NAPISY W KALENDARZU W DIGITAL-7 */
+
+.calendar-days,
+.calendar-day,
+.calendar-weekdays span,
+.cal-month-year,
+.cal-month-year span,
+.cal-month,
+.cal-year {
+    font-family: 'Digital7Italic', monospace;
+    letter-spacing: 0.08em;
+}
+/* WYBÓR BAZY – DIGITAL-7 */
+
+#baza,
+#baza option {
+    font-family: 'Digital7Italic', monospace;
+    letter-spacing: 0.06em;
+}
+/* DIGITAL-7 DLA PODSUMOWANIA WYBRANEGO CZASU */
+
+.sum-date,
+.sum-time {
+    font-family: 'Digital7Italic', monospace !important;
+    letter-spacing: 0.08em;
+}
+
+
+
